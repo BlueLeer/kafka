@@ -1,0 +1,34 @@
+server:
+  servlet:
+    context-path: /kafka
+  port: 8080
+
+spring:
+  kafka:
+    bootstrap-servers: 122.51.109.246:9092 # 指定kafka代理地址,可以是多个
+    producer:
+      retries: 0 # 设置大于0的值,则客户端会将发送失败的记录重新发送
+      batch-size: 1000 # 每次批量发送消息的数量
+      buffer-memory: 1000000
+      # 指定消息key和消息实体的编解码方式 UTF-8
+      key-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      
+    consumer:
+      # kafka消费group-id,带group-id能避免重复消费
+      # 注意: 
+      # 1.只要不更改group-id,每次重新消费kafka,都是从上次消费结束的地方继续开始,不论auto-offset-reset设置的是什么
+      # 2.如果kafka上积累了数据,想从最新的地方开始消费,则可以更改group-id,auto-offset-reset设置为latest
+      # 3.如果kafka上积累了数据,想从最开始的地方开始消费,则可以更改group-id,auto-offset-reset设置为earliest
+      group-id: test-consumer-lee
+      auto-offset-reset: earliest # 消费时机,也就是从最初开始
+      enable-auto-commit: true # 自动提交offset
+      auto-commit-interval: 100
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      
+      
+lee:
+  kafka:
+    topics:
+      log: logCenter
