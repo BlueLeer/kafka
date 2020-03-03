@@ -36,14 +36,7 @@ public class KafkaLogAspect {
     @Around("execution(public * com.lee.kafka.service.BusinessService.doTrans(..))")
     public Object doAroundService(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         KafkaLogModel kafkaLogModel = new KafkaLogModel();
-        kafkaLogModel.setLogType("SERVICE");
-        // 获取请求参数
-        Object[] req = proceedingJoinPoint.getArgs();
-        kafkaLogModel.setReqContent(req);
-        // 执行
-        Object resp = proceedingJoinPoint.proceed();
-        // 设置响应内容
-        kafkaLogModel.setResContent(resp);
+        Object resp = buildMsgModel(proceedingJoinPoint, kafkaLogModel, "SERVICE");
 
         log.info("开始发送给kafka，数据{}", kafkaLogModel.toString());
         ProducerRecord<String, KafkaLogModel> record = new ProducerRecord<>(logTopics, kafkaLogModel);
@@ -64,14 +57,11 @@ public class KafkaLogAspect {
         return resp;
     }
 
+    
     @Around("execution(public * com.lee.kafka.controller.*.*(..))")
     public Object doAroundController(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         KafkaLogModel kafkaLogModel = new KafkaLogModel();
-        kafkaLogModel.setLogType("CONTROLLER");
-        Object[] req = proceedingJoinPoint.getArgs();
-        kafkaLogModel.setReqContent(req);
-        Object resp = proceedingJoinPoint.proceed();
-        kafkaLogModel.setResContent(resp);
+        Object resp = buildMsgModel(proceedingJoinPoint, kafkaLogModel, "CONTROLLER");
 
         log.info("开始发送给kafka，数据{}", kafkaLogModel.toString());
         ProducerRecord<String, KafkaLogModel> record = new ProducerRecord<>(logTopics, kafkaLogModel);
@@ -80,6 +70,18 @@ public class KafkaLogAspect {
         // 调用get()方法,会导致方法阻塞,一直到得到ack响应以后
         SendResult<String, KafkaLogModel> result = send.get();
         
+        return resp;
+    }
+
+    private Object buildMsgModel(ProceedingJoinPoint proceedingJoinPoint, KafkaLogModel kafkaLogModel, String service) throws Throwable {
+        kafkaLogModel.setLogType(service);
+        // 获取请求参数
+        Object[] req = proceedingJoinPoint.getArgs();
+        kafkaLogModel.setReqContent(req);
+        // 执行
+        Object resp = proceedingJoinPoint.proceed();
+        // 设置响应内容
+        kafkaLogModel.setResContent(resp);
         return resp;
     }
 }
