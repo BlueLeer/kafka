@@ -10,6 +10,10 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class TopicsConfig {
+    /**
+     * 通过注入一个NewTopic类型的Bean来创建Topic,如果Topic已经存在,则会忽略
+     * @return
+     */
     @Bean
     public NewTopic logCenter() {
         // topic名称,分区数量,分区复制的个数,包括自己

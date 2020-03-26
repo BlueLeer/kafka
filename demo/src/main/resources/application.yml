@@ -21,7 +21,7 @@ spring:
       # 2.如果kafka上积累了数据,想从最新的地方开始消费,则可以更改group-id,auto-offset-reset设置为latest
       # 3.如果kafka上积累了数据,想从最开始的地方开始消费,则可以更改group-id,auto-offset-reset设置为earliest
       group-id: test-consumer-lee
-      auto-offset-reset: earliest # 消费时机,也就是从最初开始
+      auto-offset-reset: earliest # 消费时机,也就是从最初开始(把offset设置为最早,它会接收最开始的消息)
       enable-auto-commit: true # 自动提交offset
       auto-commit-interval: 100
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
