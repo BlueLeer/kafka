@@ -12,16 +12,17 @@ import org.springframework.context.annotation.Configuration;
 public class TopicsConfig {
     /**
      * 通过注入一个NewTopic类型的Bean来创建Topic,如果Topic已经存在,则会忽略
+     *
      * @return
      */
     @Bean
     public NewTopic logCenter() {
-        // topic名称,分区数量,分区复制的个数,包括自己
-        return new NewTopic("logCenter", 2, (short) 2);
+        // topic名称,分区数量,分区副本的个数(包括自己)
+        return new NewTopic("logCenter", 1, (short) 1);
     }
 
-    @Bean
-    public NewTopic logTest() {
-        return new NewTopic("logCenter_test", 1, (short) 1);
-    }
+//    @Bean
+//    public NewTopic logTest() {
+//        return new NewTopic("logCenter_test", 1, (short) 1);
+//    }
 }

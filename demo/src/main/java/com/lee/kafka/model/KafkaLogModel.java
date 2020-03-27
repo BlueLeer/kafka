@@ -9,6 +9,10 @@ import lombok.Data;
 @Data
 public class KafkaLogModel {
     /**
+     * 日志ID
+     */
+    private Long logId;
+    /**
      * 日志类型 controller日志：CONTROLLER;service日志： SERVICE
      */
     private String logType;
@@ -22,5 +26,5 @@ public class KafkaLogModel {
      * 响应内容
      */
     private Object resContent;
-    
+
 }

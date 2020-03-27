@@ -5,7 +5,7 @@ server:
 
 spring:
   kafka:
-    bootstrap-servers: 122.51.109.246:9092 # 指定kafka代理地址,可以是多个
+    bootstrap-servers: 182.92.115.106:9092 # 指定kafka代理地址,可以是多个
     producer:
       retries: 0 # 设置大于0的值,则客户端会将发送失败的记录重新发送
       batch-size: 1000 # 每次批量发送消息的数量

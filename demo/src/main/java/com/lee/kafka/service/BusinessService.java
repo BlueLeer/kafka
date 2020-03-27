@@ -15,7 +15,7 @@ public class BusinessService {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     public TransDataModel doTrans(TransDataModel defaultMqModel) {
-        log.info("处理消息{}", defaultMqModel);
+//        log.info("处理消息{}", defaultMqModel);
 
         defaultMqModel.setType("1111");
 
