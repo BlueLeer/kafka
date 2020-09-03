@@ -26,8 +26,10 @@ spring:
       auto-commit-interval: 100
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      
-      
+      # 当没有足够的数据满足这个fetch-min-size的要求时，消费者先不消费数据
+#      fetch-min-size:
+      # 在没有足够的数据满足fetch-min-size的要求时，服务器在回答请求之前将阻塞的最长时间
+#      fetch-max-wait:
 lee:
   kafka:
     topics:
